@@ -1,0 +1,41 @@
+{
+  "name": "sendgrid-nodejs-report",
+  "description": "Email report API using sendgrid-node-js library",
+  "tags": [
+    "sendgrid",
+    "node-js",
+    "email",
+    "delivery",
+    "report",
+    "api",
+    "bounces",
+    "invalidemails",
+    "blocks",
+    "spamreports",
+    "unsubscribes"
+  ],
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "author": {
+    "name": "Prashant Balan",
+    "email": "prashant.balan@hotmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/pbalan/sendgrid-nodejs-report.git"
+  },
+  "bugs": {
+    "url": "http://github.com/pbalan/sendgrid-nodejs-report/issues"
+  },
+  "main": "index.js",
+  "readmeFilename": "README.md",
+  "homepage": "http://github.com/pbalan/sendgrid-nodejs-report",
+  "dependencies": {
+    "dotenv": "0.2.0",
+    "sendgrid": "1.1.1",
+    "request": "2.22.0"
+  }
+}
