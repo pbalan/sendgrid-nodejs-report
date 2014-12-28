@@ -3,7 +3,7 @@
 var dotenv = require('dotenv');
 dotenv.load();
 
-// create report object
+// use report module
 var report = require('./lib/report');
 
 // use SendGrid nodeJS module
@@ -17,7 +17,7 @@ var username = process.env.SENDGRID_USERNAME,
 var SendgridObj = new SendGrid(username, password);
 
 // load http module to create server
-var http = require('http');
+var restify = require('restify');
 // specify the server port and other options
 var options =  {
 					host: 'localhost',
@@ -25,15 +25,50 @@ var options =  {
                };
 
 function app(req, res) {
-  	var reportObj = new report();
-	var response = SendgridObj.Report ( reportObj.__call('bounces').__call('count'), options );
 
-	res.write('module: ' + reportObj.module + ', action: ' + reportObj.action + ', response: ' + response);
+	res.write('module: ' + reportObj.module + ', action: ' + reportObj.action);
 	res.end();
 };
 
-var server = http.createServer(app).listen(options.port, function(){
+var server = restify.createServer(app);
+
+server
+  .use(restify.fullResponse())
+  .use(restify.bodyParser());
+
+server.listen(options.port, function(request, response){
 
 	// server created
 	console.log('server running at http://' + options.host + '/ on port ' + server.address().port);
 });
+
+server.get('/module/:module', function (req, res, next) {
+  // create report module
+  if(req.params.module===undefined)
+  {
+  	res.send('module is required');
+  }
+})
+
+server.get('/module/:module/action/:action', function (req, res, next) {
+  // create report module
+  var reportObj = new report();
+  if(req.params.action===undefined)
+  {
+  	res.send('action is required');
+  }
+  SendgridObj.Report ( reportObj.__call(req.params.module).__call(req.params.action), function (error, response){
+  	res.send(JSON.stringify(response));
+  })
+});
+
+server.get('/module/:module/action/:action/method/:methods', function (req, res, next) {
+  // create report module
+  var reportObj = new report();
+  
+  SendgridObj.Report ( reportObj.__call(req.params.module).__call(req.params.action), function (error, response){
+  	res.send(JSON.stringify(response));
+  })
+});
+
+server.on('data',app);

@@ -36,6 +36,7 @@
   "dependencies": {
     "dotenv": "0.2.0",
     "sendgrid": "1.1.1",
-    "request": "2.22.0"
+    "request": "2.22.0",
+    "resitfy": "2.8.4"
   }
 }
